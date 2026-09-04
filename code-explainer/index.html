@@ -125,8 +125,9 @@
     padding:16px 18px;
     overflow-x:auto;
     font-family:'JetBrains Mono','Fira Code',Consolas,monospace;
-    font-size:13px;
+    font-size:13.5px;
     line-height:1.6;
+    color: #e2e8f0;
   }
   .table-wrap{overflow-x:auto;}
   table{
@@ -418,10 +419,8 @@ Load:  data.ser → ObjectInputStream → Queue (cast กลับ)</pre>
   </section>
 
   <section id="Code">
-    <h2>🛠️ โค้ดสุดโหดของพี่บริ้งเอง</h2>
-
-    <ul>
-      <li>package javaapplication10;
+    <h2>🛠️ โค้ดที่เสร็จแล้ว / Netbeans</h2>
+    <pre><code class="language-java">package javaapplication10;
 
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -432,7 +431,7 @@ import java.util.Random;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
-class Pet implements Serializable{
+class Pet implements Serializable {
     int id;
     String name;
     String type;
@@ -465,11 +464,10 @@ class Pet implements Serializable{
     public String toString() {
         return id + "," + name + "," + type + "," + age;
     }
-    
 }
 
-class Adopter implements Serializable{
-        int id;
+class Adopter implements Serializable {
+    int id;
     String name;
     String gender;
     int age;
@@ -515,39 +513,36 @@ class Adopter implements Serializable{
     @Override
     public String toString() {
         String Petname = "null";
-        if(pet!=null){
+        if (pet != null) {
             Petname = pet.toString();
         }
-        return id+","+name+","+gender+","+age+","+salary+","+Petname;
+        return id + "," + name + "," + gender + "," + age + "," + salary + "," + Petname;
     }
-    
 }
 
-class PNode implements Serializable{
-   Pet data;
-   PNode next, prev;
+class PNode implements Serializable {
+    Pet data;
+    PNode next, prev;
 
     public PNode(Pet data) {
         this.data = data;
         this.next = null;
         this.prev = null;
     }
-   
 }
 
-class ANode implements Serializable{
-   Adopter data;
-   ANode next, prev;
+class ANode implements Serializable {
+    Adopter data;
+    ANode next, prev;
 
     public ANode(Adopter data) {
         this.data = data;
         this.next = null;
         this.prev = null;
     }
-   
 }
- 
-class LinkedList implements Serializable{
+
+class LinkedList implements Serializable {
     PNode head;
     PNode tail;
     int size;
@@ -557,56 +552,54 @@ class LinkedList implements Serializable{
         this.tail = null;
         this.size = 0;
     }
-    
-    public void add(Pet a){
+
+    public void add(Pet a) {
         PNode node = new PNode(a);
-        if(head==null){
-            head=tail=node;
-        }
-        else{
-            tail.next =node;
-            node.prev =tail;
-            tail =node;
+        if (head == null) {
+            head = tail = node;
+        } else {
+            tail.next = node;
+            node.prev = tail;
+            tail = node;
         }
         size++;
     }
-    
-    public Pet remove(){
-        if(isEmpty()){
+
+    public Pet remove() {
+        if (isEmpty()) {
             return null;
         }
         Pet temp = tail.data;
         tail = tail.prev;
-        
-        if(tail == null){
-        head = null;
+
+        if (tail == null) {
+            head = null;
         } else {
-        tail.next = null;
+            tail.next = null;
         }
-        
+
         size--;
-        
         return temp;
     }
-    
-    boolean isEmpty(){
-        return head==null;
+
+    boolean isEmpty() {
+        return head == null;
     }
-    
-    int size(){
+
+    int size() {
         return size;
     }
-    
-    PNode getHead(){
+
+    PNode getHead() {
         return head;
     }
-    
-    Pet[] toArray(){
+
+    Pet[] toArray() {
         Pet[] arr = new Pet[size];
         PNode a = head;
-        int i=0;
-        while(a!=null){
-            arr[i]=a.data;
+        int i = 0;
+        while (a != null) {
+            arr[i] = a.data;
             a = a.next;
             i++;
         }
@@ -614,24 +607,24 @@ class LinkedList implements Serializable{
     }
 }
 
-class Stack implements Serializable{
+class Stack implements Serializable {
     ANode top;
     int size;
-    
-    public Stack(){
+
+    public Stack() {
         top = null;
-        size =0;
+        size = 0;
     }
-    
-    void push(Adopter A){
+
+    void push(Adopter A) {
         ANode node = new ANode(A);
         node.next = top;
         top = node;
         size++;
     }
-    
-    Adopter pop(){
-        if(isEmpty()){
+
+    Adopter pop() {
+        if (isEmpty()) {
             return null;
         }
         Adopter temp = top.data;
@@ -639,25 +632,25 @@ class Stack implements Serializable{
         size--;
         return temp;
     }
-    
-    boolean isEmpty(){
+
+    boolean isEmpty() {
         return top == null;
     }
-    
-    int size(){
+
+    int size() {
         return size;
     }
-    
-    ANode getTop(){
+
+    ANode getTop() {
         return top;
     }
-    
-    Adopter[] toArray(){
+
+    Adopter[] toArray() {
         Adopter[] arr = new Adopter[size];
         ANode a = top;
-        int i=0;
-        while(a!=null){
-            arr[i]=a.data;
+        int i = 0;
+        while (a != null) {
+            arr[i] = a.data;
             a = a.next;
             i++;
         }
@@ -665,272 +658,266 @@ class Stack implements Serializable{
     }
 }
 
-class Queue implements Serializable{
+class Queue implements Serializable {
     ANode front;
     ANode last;
     int size;
-    
-    Queue(){
-        front =null;
-        last =null;
-        size=0;
+
+    Queue() {
+        front = null;
+        last = null;
+        size = 0;
     }
-    
-    void offer(Adopter a){
+
+    void offer(Adopter a) {
         ANode node = new ANode(a);
-        if(last==null){
-            front=last=node;
-        }
-        else{
-            last.next =node;
+        if (last == null) {
+            front = last = node;
+        } else {
+            last.next = node;
             node.prev = last;
-            last =node;
+            last = node;
         }
         size++;
     }
-    
-    Adopter poll(){
-        if(isEmpty()){
+
+    Adopter poll() {
+        if (isEmpty()) {
             return null;
         }
-        Adopter temp =front.data;
+        Adopter temp = front.data;
         front = front.next;
-        if(front!=null){
+        if (front != null) {
             front.prev = null;
-        }
-        else{
-            last=null;
+        } else {
+            last = null;
         }
         size--;
         return temp;
     }
-    
-    boolean isEmpty(){
-        return front==null;
+
+    boolean isEmpty() {
+        return front == null;
     }
-    
-    int size(){
+
+    int size() {
         return size;
     }
-    
-    ANode getFront(){
+
+    ANode getFront() {
         return front;
     }
-    Adopter[] toArray(){
+
+    Adopter[] toArray() {
         Adopter[] arr = new Adopter[size];
         ANode a = front;
-        int i=0;
-        while(a!=null){
-            arr[i]=a.data;
+        int i = 0;
+        while (a != null) {
+            arr[i] = a.data;
             a = a.next;
             i++;
         }
         return arr;
     }
-    void sortByid(){
-        Adopter[] arr =toArray();
-        
-        for(int j=0;j<arr.length-1;j++){
-            for(int i=0;i<arr.length-1;i++){
-                if(arr[i].getId()>arr[i+1].getId()){
+
+    void sortByid() {
+        Adopter[] arr = toArray();
+
+        for (int j = 0; j < arr.length - 1; j++) {
+            for (int i = 0; i < arr.length - 1; i++) {
+                if (arr[i].getId() > arr[i + 1].getId()) {
                     Adopter temp = arr[i];
-                    arr[i] = arr[i+1];
-                    arr[i+1] = temp;
+                    arr[i] = arr[i + 1];
+                    arr[i + 1] = temp;
                 }
             }
         }
         clear();
-        for(int i=0;i<arr.length;i++){
+        for (int i = 0; i < arr.length; i++) {
             offer(arr[i]);
         }
     }
-    void clear(){
-        front =null;
-        last =null;
-        size =0;
+
+    void clear() {
+        front = null;
+        last = null;
+        size = 0;
     }
 }
 
 public class NewJFrame extends javax.swing.JFrame {
-    
-    Random r = new Random();    
+
+    Random r = new Random();
     private LinkedList list = new LinkedList();
     private Stack stack = new Stack();
     private Queue queue = new Queue();
-    
-    private Pet currentPet =null;
-    private Adopter currentAdopter =null;
-    
-    private Pet genPString(){
-    String str = "abcdefghijklmnopqrstuvwxyz";
-    String[] type = {"cat","dog"};
 
-    
-    int id = r.nextInt(90)+10;
-    
-    String Name="";
-    for(int i=0;i<r.nextInt(5)+2;i++){
-        Name+= str.charAt(r.nextInt(26));
+    private Pet currentPet = null;
+    private Adopter currentAdopter = null;
+
+    private Pet genPString() {
+        String str = "abcdefghijklmnopqrstuvwxyz";
+        String[] type = {"cat", "dog"};
+
+        int id = r.nextInt(90) + 10;
+
+        String Name = "";
+        for (int i = 0; i < r.nextInt(5) + 2; i++) {
+            Name += str.charAt(r.nextInt(26));
+        }
+
+        String Type = type[r.nextInt(type.length)];
+        int age = r.nextInt(20) + 2;
+
+        return new Pet(id, Name, Type, age);
     }
-    
-    String Type= type[r.nextInt(type.length)];
-    
-    int age = r.nextInt(20)+2;
-    
-    return new Pet(id,Name,Type,age);
-}
-    
-    private Adopter genAString(){
-    String str = "abcdefghijklmnopqrstuvwxyz";
-    String[] type = {"male","female"};
-    
-    int id = r.nextInt(90)+10;
-    
-    String Name="";
-    for(int i=0;i<r.nextInt(5)+2;i++){
-        Name+= str.charAt(r.nextInt(26));
+
+    private Adopter genAString() {
+        String str = "abcdefghijklmnopqrstuvwxyz";
+        String[] type = {"male", "female"};
+
+        int id = r.nextInt(90) + 10;
+
+        String Name = "";
+        for (int i = 0; i < r.nextInt(5) + 2; i++) {
+            Name += str.charAt(r.nextInt(26));
+        }
+
+        String gender = type[r.nextInt(type.length)];
+        int age = r.nextInt(20) + 2;
+        double salary = r.nextInt(20000) + 1000.0;
+
+        return new Adopter(id, Name, gender, age, salary);
     }
-    
-    String gender= type[r.nextInt(type.length)];
-    
-    int age = r.nextInt(20)+2;
-    
-    double salary = r.nextInt(20000)+1000.0;
-    
-    return new Adopter(id,Name,gender,age,salary);
-}
-    
+
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(NewJFrame.class.getName());
-    
+
     public NewJFrame() {
         initComponents();
     }
 
-    private void updateTable1(){
-        DefaultTableModel model =(DefaultTableModel)jTable1.getModel();
+    private void updateTable1() {
+        DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
         model.setRowCount(0);
-        
-        Pet[] arr = list.toArray();
-         for (int i = 0; i < arr.length; i++) { 
-               model.addRow(new Object[]{ 
-            arr[i].getId(), arr[i].getName(), arr[i].getType(), arr[i].getAge() 
-        }); 
-        }
-    }
-    
-    private void updateTable2(){
-        DefaultTableModel model =(DefaultTableModel)jTable2.getModel();
-        model.setRowCount(0);
-        
-        Adopter[] arr = stack.toArray();
-         for (int i = 0; i < arr.length; i++) { 
-               model.addRow(new Object[]{ 
-            arr[i].getId(), arr[i].getName(), arr[i].getGender(), arr[i].getAge(),arr[i].getSalary() 
-        }); 
-        }
-    }
-    
-    private void updateTable3(){
-        DefaultTableModel model =(DefaultTableModel)jTable3.getModel();
-        model.setRowCount(0);
-        
-        Adopter[] arr = queue.toArray();
-         for (int i = 0; i < arr.length; i++) { 
-               model.addRow(new Object[]{ 
-            arr[i].getId(), arr[i].getName(), arr[i].getGender(), arr[i].getAge(),arr[i].getSalary(),arr[i].getPet() 
-        }); 
-        }
-    }
-    
-    @SuppressWarnings("unchecked")                    
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {                                         
+        Pet[] arr = list.toArray();
+        for (int i = 0; i < arr.length; i++) {
+            model.addRow(new Object[]{
+                arr[i].getId(), arr[i].getName(), arr[i].getType(), arr[i].getAge()
+            });
+        }
+    }
+
+    private void updateTable2() {
+        DefaultTableModel model = (DefaultTableModel) jTable2.getModel();
+        model.setRowCount(0);
+
+        Adopter[] arr = stack.toArray();
+        for (int i = 0; i < arr.length; i++) {
+            model.addRow(new Object[]{
+                arr[i].getId(), arr[i].getName(), arr[i].getGender(), arr[i].getAge(), arr[i].getSalary()
+            });
+        }
+    }
+
+    private void updateTable3() {
+        DefaultTableModel model = (DefaultTableModel) jTable3.getModel();
+        model.setRowCount(0);
+
+        Adopter[] arr = queue.toArray();
+        for (int i = 0; i < arr.length; i++) {
+            model.addRow(new Object[]{
+                arr[i].getId(), arr[i].getName(), arr[i].getGender(), arr[i].getAge(), arr[i].getSalary(), arr[i].getPet()
+            });
+        }
+    }
+
+    @SuppressWarnings("unchecked")
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {
         currentPet = genPString();
         jTextField1.setText(currentPet.toString());
-    }                                        
+    }
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {                                         
-         if (currentPet == null) { 
-            jTextField1.setText("Press GenPet"); 
-            return; 
-        } 
-        list.add(currentPet); 
-        updateTable1(); 
-        currentPet = null; 
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {
+        if (currentPet == null) {
+            jTextField1.setText("Press GenPet");
+            return;
+        }
+        list.add(currentPet);
+        updateTable1();
+        currentPet = null;
         jTextField1.setText("");
-    }                                        
+    }
 
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {                                         
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {
         list.remove();
         updateTable1();
-    }                                        
+    }
 
-    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {                                         
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {
         currentAdopter = genAString();
         jTextField2.setText(currentAdopter.toString());
-    }                                        
+    }
 
-    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {                                         
-        if (currentAdopter == null) { 
-            jTextField2.setText("Press GenAdopter"); 
-            return; 
-        } 
-        stack.push(currentAdopter); 
-        updateTable2(); 
-        currentAdopter = null; 
+    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {
+        if (currentAdopter == null) {
+            jTextField2.setText("Press GenAdopter");
+            return;
+        }
+        stack.push(currentAdopter);
+        updateTable2();
+        currentAdopter = null;
         jTextField2.setText("");
-    }                                        
+    }
 
-    private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {                                         
+    private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {
         stack.pop();
         updateTable2();
-    }                                        
+    }
 
-    private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {                                         
-        if(list.isEmpty()||stack.isEmpty()){
-        return;    
+    private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {
+        if (list.isEmpty() || stack.isEmpty()) {
+            return;
         }
-        Adopter x = stack.pop(); 
+        Adopter x = stack.pop();
         Pet y = list.remove();
         x.setPet(y);
         queue.offer(x);
-        updateTable1(); 
-        updateTable2(); 
-        updateTable3();  
-    }                                        
+        updateTable1();
+        updateTable2();
+        updateTable3();
+    }
 
-    private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {                                         
+    private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {
         queue.sortByid();
         updateTable3();
-    }                                        
+    }
 
-    private void jButton9ActionPerformed(java.awt.event.ActionEvent evt) {                                         
-         try { 
-            ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream("data.ser")); 
-            out.writeObject(queue); 
-            out.close(); 
-            JOptionPane.showMessageDialog(this, "Save data.ser Success"); 
-        } catch (Exception e) { 
-            JOptionPane.showMessageDialog(this, "Save error: " + e.getMessage()); 
+    private void jButton9ActionPerformed(java.awt.event.ActionEvent evt) {
+        try {
+            ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream("data.ser"));
+            out.writeObject(queue);
+            out.close();
+            JOptionPane.showMessageDialog(this, "Save data.ser Success");
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Save error: " + e.getMessage());
         }
-    }                                        
+    }
 
-    private void jButton10ActionPerformed(java.awt.event.ActionEvent evt) {                                          
-         try { 
-            ObjectInputStream in = new ObjectInputStream(new FileInputStream("data.ser")); 
-            queue = (Queue) in.readObject(); 
-            in.close(); 
-            updateTable3(); 
-            JOptionPane.showMessageDialog(this, "Load data.ser Suc"); 
-        } catch (Exception e) { 
-            JOptionPane.showMessageDialog(this, "Load error: " + e.getMessage()); 
-        } 
-
-    }                                         
-
+    private void jButton10ActionPerformed(java.awt.event.ActionEvent evt) {
+        try {
+            ObjectInputStream in = new ObjectInputStream(new FileInputStream("data.ser"));
+            queue = (Queue) in.readObject();
+            in.close();
+            updateTable3();
+            JOptionPane.showMessageDialog(this, "Load data.ser Suc");
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Load error: " + e.getMessage());
+        }
+    }
 
     public static void main(String args[]) {
-
         java.awt.EventQueue.invokeLater(() -> new NewJFrame().setVisible(true));
     }
 
@@ -954,10 +941,7 @@ public class NewJFrame extends javax.swing.JFrame {
     private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextField2;
     // End of variables declaration                   
-}
-</li>
-    </ul>
-    
+}</code></pre>
   </section>
 
 </main>
