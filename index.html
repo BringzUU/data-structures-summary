@@ -39,6 +39,31 @@
             padding-bottom: 60px;
         }
 
+        /* Top Navigation Bar */
+        .site-nav {
+            background-color: #0b0f19;
+            padding: 12px 20px;
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .site-nav a {
+            color: #94a3b8;
+            text-decoration: none;
+            padding: 8px 16px;
+            border-radius: 6px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            transition: all 0.2s ease;
+        }
+
+        .site-nav a:hover, .site-nav a.active {
+            color: #ffffff;
+            background-color: #1e293b;
+        }
+
         header {
             background: linear-gradient(135deg, #0f172a 0%, #1e3a8a 100%);
             color: #ffffff;
@@ -212,6 +237,10 @@
 
         /* Print Media Styles */
         @media print {
+            .site-nav {
+                display: none;
+            }
+
             body {
                 background: #ffffff;
                 color: #000000;
@@ -260,6 +289,12 @@
     </style>
 </head>
 <body>
+
+    <!-- แถบเลือกสลับหน้า -->
+    <nav class="site-nav">
+        <a href="/" class="active">📘 สรุปรายวิชา Data Structures</a>
+        <a href="/code-explainer">🐾 อธิบายโค้ด Pet Adoption System</a>
+    </nav>
 
     <header>
         <h1>สรุปเนื้อหารายวิชา Data Structures and Applications</h1>
