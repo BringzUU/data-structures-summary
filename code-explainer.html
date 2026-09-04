@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<title>อธิบายโค้ด: Pet Adoption System (Java)</title>
+<style>
+  :root{
+    --bg:#0f1220;
+    --card:#171b2e;
+    --accent:#7c9cff;
+    --accent2:#5ee6c1;
+    --text:#e8eaf6;
+    --muted:#9aa0c3;
+    --code-bg:#0b0e1a;
+    --border:#2a2f4a;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    font-family:'Segoe UI',"Sarabun","TH Sarabun New",Tahoma,sans-serif;
+    background:linear-gradient(180deg,#0f1220,#12172b 40%,#0f1220);
+    color:var(--text);
+    line-height:1.7;
+  }
+  header{
+    padding:48px 24px 32px;
+    text-align:center;
+    background:radial-gradient(1200px 400px at 50% -100px, rgba(124,156,255,.25), transparent);
+  }
+  header h1{
+    font-size:clamp(24px,4vw,36px);
+    margin:0 0 8px;
+    background:linear-gradient(90deg,var(--accent),var(--accent2));
+    -webkit-background-clip:text;
+    background-clip:text;
+    color:transparent;
+  }
+  header p{color:var(--muted);margin:0;}
+  main{
+    max-width:920px;
+    margin:0 auto;
+    padding:0 20px 80px;
+  }
+  nav{
+    background:var(--card);
+    border:1px solid var(--border);
+    border-radius:14px;
+    padding:18px 22px;
+    margin-bottom:32px;
+  }
+  nav h2{margin:0 0 10px;font-size:15px;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;}
+  nav ul{margin:0;padding-left:20px;columns:2;}
+  nav a{color:var(--accent);text-decoration:none;font-size:14px;}
+  nav a:hover{text-decoration:underline;}
+  section{
+    background:var(--card);
+    border:1px solid var(--border);
+    border-radius:16px;
+    padding:26px 28px;
+    margin-bottom:24px;
+    scroll-margin-top:20px;
+  }
+  section h2{
+    margin-top:0;
+    font-size:22px;
+    display:flex;
+    align-items:center;
+    gap:10px;
+  }
+  section h2 .tag{
+    font-size:12px;
+    font-weight:600;
+    padding:3px 10px;
+    border-radius:999px;
+    background:rgba(124,156,255,.15);
+    color:var(--accent);
+    border:1px solid rgba(124,156,255,.35);
+  }
+  section h3{
+    font-size:16px;
+    margin:22px 0 8px;
+    color:var(--accent2);
+  }
+  p{color:var(--text);}
+  ul{padding-left:22px;}
+  li{margin-bottom:6px;}
+  code{
+    background:var(--code-bg);
+    padding:2px 6px;
+    border-radius:6px;
+    font-family:'JetBrains Mono','Fira Code',Consolas,monospace;
+    font-size:13px;
+    color:var(--accent2);
+  }
+  pre{
+    background:var(--code-bg);
+    border:1px solid var(--border);
+    border-radius:10px;
+    padding:16px 18px;
+    overflow-x:auto;
+    font-family:'JetBrains Mono','Fira Code',Consolas,monospace;
+    font-size:13px;
+    line-height:1.6;
+  }
+  .table-wrap{overflow-x:auto;}
+  table{
+    width:100%;
+    border-collapse:collapse;
+    margin:14px 0;
+    font-size:14px;
+  }
+  th,td{
+    border:1px solid var(--border);
+    padding:8px 12px;
+    text-align:left;
+    vertical-align:top;
+  }
+  th{background:rgba(124,156,255,.1);color:var(--accent);}
+  tr:nth-child(even) td{background:rgba(255,255,255,.02);}
+  .note{
+    border-left:4px solid var(--accent2);
+    background:rgba(94,230,193,.08);
+    padding:12px 16px;
+    border-radius:8px;
+    margin:14px 0;
+    font-size:14px;
+  }
+  .warn{
+    border-left:4px solid #ff8a5c;
+    background:rgba(255,138,92,.1);
+    padding:12px 16px;
+    border-radius:8px;
+    margin:14px 0;
+    font-size:14px;
+  }
+  .fixed{
+    border-left:4px solid #5ee6c1;
+    background:rgba(94,230,193,.08);
+    padding:12px 16px;
+    border-radius:8px;
+    margin:14px 0;
+    font-size:14px;
+  }
+  .grid2{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:16px;
+  }
+  @media (max-width:640px){
+    .grid2{grid-template-columns:1fr;}
+    nav ul{columns:1;}
+  }
+  .badge-flow{
+    display:inline-block;
+    background:rgba(124,156,255,.15);
+    border:1px solid rgba(124,156,255,.35);
+    color:var(--accent);
+    padding:2px 8px;
+    border-radius:6px;
+    font-size:12px;
+    margin:2px 4px 2px 0;
+  }
+  footer{
+    text-align:center;
+    color:var(--muted);
+    font-size:13px;
+    padding:20px;
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>🐾 Pet Adoption System — คำอธิบายโค้ดทั้งไฟล์</h1>
+  <p>เจาะทีละคลาส ทีละ method ว่าทำหน้าที่อะไร เชื่อมกันอย่างไร</p>
+</header>
+
+<main>
+
+  <nav>
+    <h2>สารบัญ</h2>
+    <ul>
+      <li><a href="#overview">ภาพรวมโปรแกรม</a></li>
+      <li><a href="#pet">คลาส Pet</a></li>
+      <li><a href="#adopter">คลาส Adopter</a></li>
+      <li><a href="#pnode">คลาส PNode</a></li>
+      <li><a href="#anode">คลาส ANode</a></li>
+      <li><a href="#linkedlist">คลาส LinkedList (เก็บ Pet)</a></li>
+      <li><a href="#stack">คลาส Stack (เก็บ Adopter)</a></li>
+      <li><a href="#queue">คลาส Queue (เก็บ Adopter ที่รับเลี้ยงแล้ว)</a></li>
+      <li><a href="#gui">คลาส NewJFrame (หน้าจอ GUI)</a></li>
+      <li><a href="#buttons">ปุ่มแต่ละปุ่มทำอะไรบ้าง</a></li>
+      <li><a href="#saveload">ระบบ Save / Load</a></li>
+      <li><a href="#bugs">สรุปจุดที่แก้ไปแล้ว / ควรระวัง</a></li>
+    </ul>
+  </nav>
+
+  <section id="overview">
+    <h2>📌 ภาพรวมโปรแกรม</h2>
+    <p>
+      นี่คือโปรแกรม GUI (Swing) จำลองระบบ "รับเลี้ยงสัตว์" ประกอบด้วยโครงสร้างข้อมูล 3 แบบที่เขียนขึ้นเอง
+      (ไม่ใช้ของ <code>java.util</code>):
+    </p>
+    <div class="grid2">
+      <div>
+        <span class="badge-flow">LinkedList</span> เก็บ <code>Pet</code> ที่รอรับเลี้ยง (doubly linked list)
+      </div>
+      <div>
+        <span class="badge-flow">Stack</span> เก็บ <code>Adopter</code> ที่รอคิว (LIFO)
+      </div>
+      <div>
+        <span class="badge-flow">Queue</span> เก็บ <code>Adopter</code> ที่ "รับเลี้ยงสำเร็จ" แล้ว (FIFO)
+      </div>
+    </div>
+    <p>ผู้ใช้กดปุ่มบน GUI เพื่อ: สุ่มข้อมูล → เพิ่มเข้าโครงสร้าง → จับคู่ Pet กับ Adopter → เรียงลำดับ → บันทึก/โหลดไฟล์</p>
+  </section>
+
+  <section id="pet">
+    <h2>Pet <span class="tag">Model / Data Class</span></h2>
+    <p>เก็บข้อมูลสัตว์เลี้ยงหนึ่งตัว</p>
+    <div class="table-wrap">
+      <table>
+        <tr><th>ฟิลด์</th><th>ความหมาย</th></tr>
+        <tr><td><code>id</code></td><td>รหัสสัตว์ (สุ่ม 10-99)</td></tr>
+        <tr><td><code>name</code></td><td>ชื่อ (สุ่มตัวอักษร a-z)</td></tr>
+        <tr><td><code>type</code></td><td>"cat" หรือ "dog"</td></tr>
+        <tr><td><code>age</code></td><td>อายุ (สุ่ม 2-21)</td></tr>
+      </table>
+    </div>
+    <p>มี getter ครบทุกฟิลด์ และ override <code>toString()</code> เพื่อโชว์เป็น <code>id,name,type,age</code></p>
+    <div class="fixed">✅ <b>ตอนนี้:</b> <code>implements Serializable</code> แล้ว — จำเป็นเพราะ object นี้จะถูกเก็บลงไฟล์ผ่าน <code>Queue</code> (Adopter มี Pet อยู่ข้างใน)</div>
+  </section>
+
+  <section id="adopter">
+    <h2>Adopter <span class="tag">Model / Data Class</span></h2>
+    <p>เก็บข้อมูลผู้ขอรับเลี้ยง</p>
+    <div class="table-wrap">
+      <table>
+        <tr><th>ฟิลด์</th><th>ความหมาย</th></tr>
+        <tr><td><code>id, name, gender, age</code></td><td>ข้อมูลพื้นฐาน (สุ่มเหมือน Pet)</td></tr>
+        <tr><td><code>salary</code></td><td>เงินเดือน (สุ่ม 1000–20999)</td></tr>
+        <tr><td><code>pet</code></td><td>สัตว์ที่ตัวนี้รับเลี้ยง — <b>เริ่มต้นเป็น null</b> จนกว่าจะกด "AssignPet"</td></tr>
+      </table>
+    </div>
+    <p><code>setPet()</code> ใช้ตอนจับคู่กับสัตว์ / <code>toString()</code> จะโชว์ <code>"null"</code> ถ้ายังไม่มี pet</p>
+    <div class="fixed">✅ <code>implements Serializable</code> แล้ว</div>
+  </section>
+
+  <section id="pnode">
+    <h2>PNode <span class="tag">Node ของ LinkedList (Pet)</span></h2>
+    <p>โหนดของ doubly-linked list สำหรับเก็บ <code>Pet</code> หนึ่งตัว</p>
+    <pre>PNode
+ ├─ data : Pet     (ข้อมูลจริง)
+ ├─ next : PNode   (โหนดถัดไป)
+ └─ prev : PNode   (โหนดก่อนหน้า)</pre>
+    <p>Constructor รับ <code>Pet</code> เข้ามาแล้วเซ็ต <code>next</code>, <code>prev</code> เป็น <code>null</code> ก่อนเสมอ</p>
+  </section>
+
+  <section id="anode">
+    <h2>ANode <span class="tag">Node ของ Stack &amp; Queue (Adopter)</span></h2>
+    <p>โครงสร้างเหมือน <code>PNode</code> ทุกอย่าง เพียงแต่เก็บ <code>Adopter</code> แทน <code>Pet</code></p>
+    <p>ใช้ร่วมกันทั้งในคลาส <code>Stack</code> และ <code>Queue</code> ด้านล่าง</p>
+  </section>
+
+  <section id="linkedlist">
+    <h2>LinkedList <span class="tag">เก็บ Pet ที่รอรับเลี้ยง</span></h2>
+    <p>Doubly-linked list มี <code>head</code>, <code>tail</code>, <code>size</code></p>
+
+    <h3>add(Pet a)</h3>
+    <p>สร้าง <code>PNode</code> ใหม่ แล้วต่อเข้าไปทาง <b>ท้าย (tail)</b> ของลิสต์ — ถ้าลิสต์ว่างให้ <code>head = tail = node</code> เลย</p>
+
+    <h3>remove()</h3>
+    <p>ลบสัตว์ตัวที่อยู่ <b>ท้ายลิสต์ (tail)</b> แล้วคืนค่ากลับไป — ถ้าลิสต์ว่างคืน <code>null</code></p>
+    <div class="fixed">
+      ✅ <b>แก้แล้ว:</b> ตอนนี้เช็คว่าถ้าลบจนไม่เหลือ node จะเซ็ต <code>head = null</code> ด้วย และถ้ายังเหลือจะตัด <code>tail.next = null</code> เพื่อไม่ให้มี dangling reference (เมื่อก่อนพลาดจุดนี้ ทำให้ <code>add()</code> ครั้งถัดไปพัง)
+    </div>
+
+    <h3>isEmpty(), size(), getHead(), toArray()</h3>
+    <p>เมธอดช่วยมาตรฐาน — <code>toArray()</code> วนจาก <code>head</code> ไป <code>next</code> เรื่อยๆ แปลงเป็น <code>Pet[]</code> เพื่อเอาไปแสดงในตาราง</p>
+
+    <div class="warn">
+      ⚠️ <b>ข้อสังเกต:</b> <code>add()</code> เพิ่มที่ tail และ <code>remove()</code> ก็ลบที่ tail เหมือนกัน → พฤติกรรมจริงคือ <b>Stack (LIFO)</b> ไม่ใช่คิวปกติ ถ้าต้องการให้ "ตัวที่เพิ่มก่อนถูกจับคู่ก่อน" ต้องเปลี่ยนไปลบจาก <code>head</code> แทน
+    </div>
+  </section>
+
+  <section id="stack">
+    <h2>Stack <span class="tag">เก็บ Adopter ที่รอคิว — LIFO</span></h2>
+    <p>ใช้ singly-linked node (<code>ANode</code>) โดยมีแค่ <code>top</code> ตัวเดียว</p>
+    <ul>
+      <li><code>push(Adopter A)</code> — สร้างโหนดใหม่ วางไว้บนสุด (<code>node.next = top; top = node;</code>)</li>
+      <li><code>pop()</code> — เอาตัวบนสุดออก (<code>top = top.next</code>) แล้วคืนค่า</li>
+      <li><code>isEmpty(), size(), getTop(), toArray()</code> — เมธอดช่วยมาตรฐาน</li>
+    </ul>
+    <p>ล่าสุดที่ push เข้ามาจะเป็นตัวแรกที่ถูก pop ออก (คนที่กด "AddAdopter" ทีหลังจะได้จับคู่กับสัตว์ก่อน)</p>
+  </section>
+
+  <section id="queue">
+    <h2>Queue <span class="tag">เก็บ Adopter ที่รับเลี้ยงสำเร็จแล้ว — FIFO</span></h2>
+    <p>Doubly-linked list ของ <code>ANode</code> มี <code>front</code> และ <code>last</code></p>
+    <ul>
+      <li><code>offer(Adopter a)</code> — เพิ่มเข้าทาง <code>last</code></li>
+      <li><code>poll()</code> — เอาออกทาง <code>front</code> (คนแรกที่เข้ามาก่อน) พร้อมเช็คกรณีเหลือ node เดียวให้เคลียร์ <code>last</code> ด้วย — เมธอดนี้เขียนถูกต้องแล้ว (ไม่มีบั๊กแบบที่เจอใน LinkedList.remove())</li>
+      <li><code>toArray()</code> — แปลงเป็น <code>Adopter[]</code></li>
+      <li><code>clear()</code> — เคลียร์ทั้ง <code>front</code>, <code>last</code>, <code>size</code></li>
+    </ul>
+
+    <h3>sortByid()</h3>
+    <p>เรียงลำดับสมาชิกใน queue ตาม <code>id</code> จากน้อยไปมาก โดยใช้ <b>Bubble Sort</b>:</p>
+    <pre>1. toArray()        → ดึงข้อมูลทั้งหมดออกมาเป็น array ก่อน
+2. bubble sort       → เรียงตาม id (วน 2 loop เทียบทีละคู่ สลับถ้าลำดับผิด)
+3. clear()           → ล้าง queue เดิมทิ้งให้หมด
+4. offer() วนใหม่    → เติมสมาชิกที่เรียงแล้วกลับเข้า queue ตามลำดับ</pre>
+    <p>เป็นวิธี "แปลงเป็น array → sort → ใส่กลับ" ซึ่งใช้ได้ผล แม้จะไม่ efficient เท่าการ sort linked list ตรงๆ (แต่ข้อมูลจำนวนน้อยจึงไม่มีปัญหา)</p>
+  </section>
+
+  <section id="gui">
+    <h2>NewJFrame <span class="tag">หน้าต่างโปรแกรม (Swing GUI)</span></h2>
+    <p>คลาสหลักที่รัน UI ประกอบด้วย 3 ตาราง (<code>jTable1-3</code>), 10 ปุ่ม, 2 ช่องข้อความ</p>
+
+    <h3>ตัวแปรหลัก</h3>
+    <ul>
+      <li><code>list</code> — Pet ทั้งหมดที่รอรับเลี้ยง (แสดงใน jTable1)</li>
+      <li><code>stack</code> — Adopter ที่รอคิว (แสดงใน jTable2)</li>
+      <li><code>queue</code> — คู่ Adopter+Pet ที่จับคู่สำเร็จ (แสดงใน jTable3)</li>
+      <li><code>currentPet</code>, <code>currentAdopter</code> — ตัวที่เพิ่ง "สุ่ม" มา รอกดปุ่ม Add เพื่อใส่จริง</li>
+    </ul>
+
+    <h3>genPString() / genAString()</h3>
+    <p>สุ่มสร้าง <code>Pet</code> / <code>Adopter</code> ใหม่ ด้วยค่าสุ่มตามช่วงที่กำหนดไว้ (id, ชื่อ, ประเภท, อายุ, เงินเดือน) — ยังไม่ถูกเพิ่มเข้าโครงสร้างข้อมูลใดๆ แค่สร้าง object รอไว้เฉยๆ</p>
+    <div class="warn">⚠️ id สุ่มแบบไม่เช็คซ้ำ (10-99) — ถ้าต้องใช้ id เป็น unique key ควรเพิ่ม logic กันชนกัน</div>
+
+    <h3>updateTable1() / updateTable2() / updateTable3()</h3>
+    <p>ล้างตารางเดิม (<code>model.setRowCount(0)</code>) แล้วดึงข้อมูลปัจจุบันจาก <code>list</code>/<code>stack</code>/<code>queue</code> ผ่าน <code>toArray()</code> มาเติมทีละแถว — เรียกใช้หลังทุกครั้งที่มีการเปลี่ยนแปลงข้อมูล เพื่อ sync หน้าจอกับข้อมูลจริง</p>
+
+    <h3>initComponents()</h3>
+    <p>โค้ด auto-generate จาก NetBeans GUI Builder — สร้างปุ่ม, ตาราง, layout ทั้งหมด ไม่ควรแก้มือ (ตามคอมเมนต์ "do not modify")</p>
+  </section>
+
+  <section id="buttons">
+    <h2>🔘 ปุ่มแต่ละปุ่มทำอะไร</h2>
+    <div class="table-wrap">
+      <table>
+        <tr><th>ปุ่ม</th><th>Method</th><th>ทำอะไร</th></tr>
+        <tr><td>Genpet</td><td><code>jButton1ActionPerformed</code></td><td>สุ่ม Pet ใหม่ → เก็บใน <code>currentPet</code> → โชว์ในช่องข้อความ</td></tr>
+        <tr><td>Addpet</td><td><code>jButton2ActionPerformed</code></td><td>ถ้ามี <code>currentPet</code> → ใส่เข้า <code>list</code> → รีเฟรชตาราง 1 → เคลียร์ <code>currentPet</code></td></tr>
+        <tr><td>RemovePet</td><td><code>jButton3ActionPerformed</code></td><td>ลบ Pet ตัวท้ายสุดของ <code>list</code> → รีเฟรชตาราง 1</td></tr>
+        <tr><td>GenAdopter</td><td><code>jButton4ActionPerformed</code></td><td>สุ่ม Adopter ใหม่ → เก็บใน <code>currentAdopter</code></td></tr>
+        <tr><td>AddAdopter</td><td><code>jButton5ActionPerformed</code></td><td>ถ้ามี <code>currentAdopter</code> → push เข้า <code>stack</code> → รีเฟรชตาราง 2</td></tr>
+        <tr><td>RemoveAdopter</td><td><code>jButton6ActionPerformed</code></td><td>pop ตัวบนสุดของ <code>stack</code> ทิ้ง → รีเฟรชตาราง 2</td></tr>
+        <tr><td>AssignPet</td><td><code>jButton7ActionPerformed</code></td><td>ถ้า list และ stack ไม่ว่าง: pop adopter 1 คน + remove pet 1 ตัว → จับคู่ (<code>setPet</code>) → offer เข้า <code>queue</code> → รีเฟรชทั้ง 3 ตาราง</td></tr>
+        <tr><td>Sort</td><td><code>jButton8ActionPerformed</code></td><td>เรียง <code>queue</code> ตาม id → รีเฟรชตาราง 3</td></tr>
+        <tr><td>Save</td><td><code>jButton9ActionPerformed</code></td><td>เขียน <code>queue</code> ทั้งก้อนลงไฟล์ <code>data.ser</code></td></tr>
+        <tr><td>Load</td><td><code>jButton10ActionPerformed</code></td><td>อ่าน <code>data.ser</code> กลับมาเป็น <code>queue</code> → รีเฟรชตาราง 3</td></tr>
+      </table>
+    </div>
+  </section>
+
+  <section id="saveload">
+    <h2>💾 ระบบ Save / Load</h2>
+    <p>ใช้ Java Object Serialization มาตรฐาน:</p>
+    <pre>Save:  Queue → ObjectOutputStream → data.ser
+Load:  data.ser → ObjectInputStream → Queue (cast กลับ)</pre>
+    <p>เนื่องจาก <code>Queue</code> เก็บ <code>ANode</code> ซึ่งเก็บ <code>Adopter</code> ซึ่งเก็บ <code>Pet</code> — <b>ทุกคลาสในสายนี้ต้อง Serializable หมด</b> ไม่งั้นจะ error ทันทีตอน <code>writeObject()</code></p>
+    <div class="note">
+      💡 หมายเหตุ: <code>data.ser</code> จะถูกสร้าง/อ่านที่ working directory ของโปรแกรม (มักจะเป็นโฟลเดอร์ project ตอนรันจาก IDE) — ถ้า Load แล้วหาไฟล์ไม่เจอจะโชว์ dialog "Load error: ..."
+    </div>
+  </section>
+
+  <section id="bugs">
+    <h2>🛠️ สรุปจุดที่แก้ไปแล้ว / ที่ยังควรพิจารณา</h2>
+
+    <h3>✅ แก้แล้วในเวอร์ชันนี้</h3>
+    <ul>
+      <li>เพิ่ม <code>implements Serializable</code> ให้ <code>Pet, Adopter, PNode, ANode, LinkedList, Stack, Queue</code> — ทำให้ Save/Load ทำงานได้จริง</li>
+      <li><code>LinkedList.remove()</code> เซ็ต <code>head = null</code> เมื่อลบ node สุดท้าย และตัด <code>tail.next = null</code> กัน dangling reference</li>
+    </ul>
+
+    <h3>⚠️ ยังควรพิจารณาเพิ่ม (ไม่ใช่บั๊กที่ทำให้พัง แต่เป็นจุดออกแบบ)</h3>
+    <ul>
+      <li><b>LinkedList ทำงานแบบ LIFO ไม่ใช่ FIFO</b> — ถ้าต้องการให้ Pet ที่เพิ่มก่อนถูกจับคู่ก่อน ต้องแก้ <code>remove()</code> ให้ลบจาก <code>head</code> แทน <code>tail</code></li>
+      <li><b>id สุ่มไม่กันชนกัน</b> — สองตัวอาจได้ id ซ้ำกันได้ ถ้าต้องใช้ id เป็นตัวอ้างอิงเฉพาะควรเช็คซ้ำก่อนสุ่มเสร็จ</li>
+      <li><b>ชื่อคลาส <code>LinkedList</code>, <code>Stack</code>, <code>Queue</code> ซ้ำกับ <code>java.util</code></b> — ตอนนี้ไม่พังเพราะไม่ได้ import <code>java.util.*</code> แต่เสี่ยงเกิด ambiguity ถ้ามีการ import เพิ่มในอนาคต แนะนำเปลี่ยนชื่อ เช่น <code>PetList</code>, <code>AdopterStack</code>, <code>AdopterQueue</code></li>
+      <li><b>RemovePet / RemoveAdopter ไม่แจ้งเตือนผู้ใช้เมื่อว่าง</b> — ปุ่มอื่นๆ (เช่น Addpet) มีการเช็ค null แล้วโชว์ข้อความ แต่สองปุ่มนี้ไม่มี ถึงจะไม่ error (เพราะ <code>remove()/pop()</code> เช็ค <code>isEmpty()</code> ให้แล้ว) แต่ผู้ใช้จะไม่รู้ว่ากดไปแล้วไม่มีอะไรเกิดขึ้น</li>
+    </ul>
+  </section>
+
+</main>
+
+<footer>สร้างขึ้นเพื่ออธิบายโค้ด NewJFrame.java — Pet Adoption System</footer>
+
+</body>
+</html>
