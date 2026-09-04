@@ -420,527 +420,528 @@ Load:  data.ser → ObjectInputStream → Queue (cast กลับ)</pre>
 
   <section id="Code">
     <h2>🛠️ โค้ดที่เสร็จแล้ว / Netbeans</h2>
-    <pre><code class="language-java">package javaapplication10;
+    <pre><code class="language-java">package javaapplication10; // ประกาศชื่อแพ็กเกจของโปรแกรม
 
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.io.Serializable;
-import java.util.Random;
-import javax.swing.JOptionPane;
-import javax.swing.table.DefaultTableModel;
+import java.io.FileInputStream; // อิมพอร์ตคลาสสำหรับอ่านไฟล์แบบไบต์
+import java.io.FileOutputStream; // อิมพอร์ตคลาสสำหรับเขียนไฟล์แบบไบต์
+import java.io.ObjectInputStream; // อิมพอร์ตคลาสสำหรับอ่าน Object จากไฟล์
+import java.io.ObjectOutputStream; // อิมพอร์ตคลาสสำหรับแปลงและเขียน Object ลงไฟล์
+import java.io.Serializable; // อิมพอร์ต Interface เพื่ออนุญาตให้คลาสบันทึกลงไฟล์ได้
+import java.util.Random; // อิมพอร์ตคลาสสำหรับใช้สุ่มค่าต่างๆ
+import javax.swing.JOptionPane; // อิมพอร์ตคลาสสำหรับสร้างหน้าต่างข้อความแจ้งเตือน (Pop-up)
+import javax.swing.table.DefaultTableModel; // อิมพอร์ตคลาสสำหรับจัดการข้อมูลใน JTable
 
-class Pet implements Serializable {
-    int id;
-    String name;
-    String type;
-    int age;
+class Pet implements Serializable { // ประกาศคลาส Pet สำหรับเก็บข้อมูลสัตว์เลี้ยง (รองรับ Save/Load)
+    int id; // ประกาศตัวแปรเก็บรหัสสัตว์เลี้ยง
+    String name; // ประกาศตัวแปรเก็บชื่อสัตว์เลี้ยง
+    String type; // ประกาศตัวแปรเก็บประเภทสัตว์เลี้ยง (cat/dog)
+    int age; // ประกาศตัวแปรเก็บอายุสัตว์เลี้ยง
 
-    public Pet(int id, String name, String type, int age) {
-        this.id = id;
-        this.name = name;
-        this.type = type;
-        this.age = age;
+    public Pet(int id, String name, String type, int age) { // ตัวสร้างคลาส (Constructor) รับค่าเริ่มต้น 4 ค่า
+        this.id = id; // กำหนดค่า id จากพารามิเตอร์ให้ตัวแปร id ของคลาส
+        this.name = name; // กำหนดค่า name จากพารามิเตอร์ให้ตัวแปร name ของคลาส
+        this.type = type; // กำหนดค่า type จากพารามิเตอร์ให้ตัวแปร type ของคลาส
+        this.age = age; // กำหนดค่า age จากพารามิเตอร์ให้ตัวแปร age ของคลาส
     }
 
-    public int getId() {
-        return id;
+    public int getId() { // เมธอดดึงค่า id
+        return id; // ส่งคืนค่า id
     }
 
-    public String getName() {
-        return name;
+    public String getName() { // เมธอดดึงค่า name
+        return name; // ส่งคืนค่า name
     }
 
-    public String getType() {
-        return type;
+    public String getType() { // เมธอดดึงค่า type
+        return type; // ส่งคืนค่า type
     }
 
-    public int getAge() {
-        return age;
+    public int getAge() { // เมธอดดึงค่า age
+        return age; // ส่งคืนค่า age
     }
 
-    @Override
-    public String toString() {
-        return id + "," + name + "," + type + "," + age;
-    }
-}
-
-class Adopter implements Serializable {
-    int id;
-    String name;
-    String gender;
-    int age;
-    double salary;
-    Pet pet;
-
-    public Adopter(int id, String name, String gender, int age, double salary) {
-        this.id = id;
-        this.name = name;
-        this.gender = gender;
-        this.age = age;
-        this.salary = salary;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public String getGender() {
-        return gender;
-    }
-
-    public int getAge() {
-        return age;
-    }
-
-    public double getSalary() {
-        return salary;
-    }
-
-    public Pet getPet() {
-        return pet;
-    }
-
-    public void setPet(Pet pet) {
-        this.pet = pet;
-    }
-
-    @Override
-    public String toString() {
-        String Petname = "null";
-        if (pet != null) {
-            Petname = pet.toString();
-        }
-        return id + "," + name + "," + gender + "," + age + "," + salary + "," + Petname;
+    @Override // กำหนดการเขียนทับเมธอดเดิมของ Java
+    public String toString() { // เมธอดแปลงข้อมูล Pet เป็นข้อความ
+        return id + "," + name + "," + type + "," + age; // ส่งคืนข้อความรวมข้อมูล Pet ขั้นด้วยเครื่องหมายจุลภาค
     }
 }
 
-class PNode implements Serializable {
-    Pet data;
-    PNode next, prev;
+class Adopter implements Serializable { // ประกาศคลาส Adopter สำหรับเก็บข้อมูลผู้ขอรับเลี้ยง
+    int id; // ประกาศตัวแปรเก็บรหัสผู้ขอรับเลี้ยง
+    String name; // ประกาศตัวแปรเก็บชื่อผู้ขอรับเลี้ยง
+    String gender; // ประกาศตัวแปรเก็บเพศ
+    int age; // ประกาศตัวแปรเก็บอายุ
+    double salary; // ประกาศตัวแปรเก็บเงินเดือน
+    Pet pet; // ประกาศตัวแปรเก็บวัตถุ Pet ที่ถูกจับคู่ด้วย (เริ่มต้นเป็น null)
 
-    public PNode(Pet data) {
-        this.data = data;
-        this.next = null;
-        this.prev = null;
+    public Adopter(int id, String name, String gender, int age, double salary) { // Constructor รับค่าเริ่มต้น 5 ค่า
+        this.id = id; // กำหนดค่า id ให้คลาส
+        this.name = name; // กำหนดค่า name ให้คลาส
+        this.gender = gender; // กำหนดค่า gender ให้คลาส
+        this.age = age; // กำหนดค่า age ให้คลาส
+        this.salary = salary; // กำหนดค่า salary ให้คลาส
+    }
+
+    public int getId() { // เมธอดดึงค่า id
+        return id; // ส่งคืนค่า id
+    }
+
+    public String getName() { // เมธอดดึงค่า name
+        return name; // ส่งคืนค่า name
+    }
+
+    public String getGender() { // เมธอดดึงค่า gender
+        return gender; // ส่งคืนค่า gender
+    }
+
+    public int getAge() { // เมธอดดึงค่า age
+        return age; // ส่งคืนค่า age
+    }
+
+    public double getSalary() { // เมธอดดึงค่า salary
+        return salary; // ส่งคืนค่า salary
+    }
+
+    public Pet getPet() { // เมธอดดึงข้อมูล Pet ที่จับคู่ไว้
+        return pet; // ส่งคืนวัตถุ Pet
+    }
+
+    public void setPet(Pet pet) { // เมธอดผูก Pet เข้ากับ Adopter ตัวนี้
+        this.pet = pet; // บันทึกวัตถุ Pet ลงในตัวแปร pet
+    }
+
+    @Override // เขียนทับเมธอด toString
+    public String toString() { // เมธอดแปลงข้อมูล Adopter เป็นข้อความ
+        String Petname = "null"; // สร้างข้อความเริ่มต้นสำหรับ Pet เป็น "null"
+        if (pet != null) { // ถ้ามีการผูก Pet ไว้แล้ว
+            Petname = pet.toString(); // ดึงข้อความข้อมูลของ Pet มาเก็บไว้
+        }
+        return id + "," + name + "," + gender + "," + age + "," + salary + "," + Petname; // ส่งคืนข้อความรวมข้อมูล Adopter
     }
 }
 
-class ANode implements Serializable {
-    Adopter data;
-    ANode next, prev;
+class PNode implements Serializable { // ประกาศคลาส PNode สำหรับทำเป็นโหนดของ Pet ใน LinkedList
+    Pet data; // ตัวแปรเก็บข้อมูลสัตว์เลี้ยง
+    PNode next, prev; // ตัวแปรเก็บตำแหน่งโหนดถัดไป (next) และโหนดก่อนหน้า (prev)
 
-    public ANode(Adopter data) {
-        this.data = data;
-        this.next = null;
-        this.prev = null;
+    public PNode(Pet data) { // Constructor รับข้อมูล Pet
+        this.data = data; // บันทึกข้อมูล Pet เข้าโหนด
+        this.next = null; // กำหนดตัวเชื่อมถัดไปเป็น null
+        this.prev = null; // กำหนดตัวเชื่อมก่อนหน้าเป็น null
     }
 }
 
-class LinkedList implements Serializable {
-    PNode head;
-    PNode tail;
-    int size;
+class ANode implements Serializable { // ประกาศคลาส ANode สำหรับทำเป็นโหนดของ Adopter ใน Stack และ Queue
+    Adopter data; // ตัวแปรเก็บข้อมูลผู้ขอรับเลี้ยง
+    ANode next, prev; // ตัวแปรเก็บตำแหน่งโหนดถัดไป และโหนดก่อนหน้า
 
-    public LinkedList() {
-        this.head = null;
-        this.tail = null;
-        this.size = 0;
-    }
-
-    public void add(Pet a) {
-        PNode node = new PNode(a);
-        if (head == null) {
-            head = tail = node;
-        } else {
-            tail.next = node;
-            node.prev = tail;
-            tail = node;
-        }
-        size++;
-    }
-
-    public Pet remove() {
-        if (isEmpty()) {
-            return null;
-        }
-        Pet temp = tail.data;
-        tail = tail.prev;
-
-        if (tail == null) {
-            head = null;
-        } else {
-            tail.next = null;
-        }
-
-        size--;
-        return temp;
-    }
-
-    boolean isEmpty() {
-        return head == null;
-    }
-
-    int size() {
-        return size;
-    }
-
-    PNode getHead() {
-        return head;
-    }
-
-    Pet[] toArray() {
-        Pet[] arr = new Pet[size];
-        PNode a = head;
-        int i = 0;
-        while (a != null) {
-            arr[i] = a.data;
-            a = a.next;
-            i++;
-        }
-        return arr;
+    public ANode(Adopter data) { // Constructor รับข้อมูล Adopter
+        this.data = data; // บันทึกข้อมูล Adopter เข้าโหนด
+        this.next = null; // กำหนดตัวเชื่อมถัดไปเป็น null
+        this.prev = null; // กำหนดตัวเชื่อมก่อนหน้าเป็น null
     }
 }
 
-class Stack implements Serializable {
-    ANode top;
-    int size;
+class LinkedList implements Serializable { // ประกาศคลาส LinkedList สำหรับเก็บรายการ Pet
+    PNode head; // ตัวแปรชี้โหนดแรกสุด
+    PNode tail; // ตัวแปรชี้โหนดท้ายสุด
+    int size; // ตัวแปรนับจำนวนสมาชิก
 
-    public Stack() {
-        top = null;
-        size = 0;
+    public LinkedList() { // Constructor ของ LinkedList
+        this.head = null; // ตั้งค่าโหนดแรกเป็น null
+        this.tail = null; // ตั้งค่าโหนดท้ายเป็น null
+        this.size = 0; // ตั้งค่าจำนวนสมาชิกเริ่มต้นเป็น 0
     }
 
-    void push(Adopter A) {
-        ANode node = new ANode(A);
-        node.next = top;
-        top = node;
-        size++;
-    }
-
-    Adopter pop() {
-        if (isEmpty()) {
-            return null;
+    public void add(Pet a) { // เมธอดเพิ่ม Pet เข้าท้ายรายการ
+        PNode node = new PNode(a); // สร้างโหนดใหม่จากวัตถุ Pet
+        if (head == null) { // ถ้าลิสต์ยังว่างอยู่
+            head = tail = node; // ให้ head และ tail ชี้ไปที่โหนดใหม่นี้พร้อมกัน
+        } else { // ถ้าลิสต์มีข้อมูลอยู่แล้ว
+            tail.next = node; // เอาโหนดใหม่ต่อท้าย tail เดิม
+            node.prev = tail; // ให้ prev ของโหนดใหม่ชี้กลับมาที่ tail เดิม
+            tail = node; // ขยับตำแหน่ง tail ให้มาเป็นโหนดใหม่
         }
-        Adopter temp = top.data;
-        top = top.next;
-        size--;
-        return temp;
+        size++; // เพิ่มจำนวนสมาชิกขึ้น 1
     }
 
-    boolean isEmpty() {
-        return top == null;
-    }
-
-    int size() {
-        return size;
-    }
-
-    ANode getTop() {
-        return top;
-    }
-
-    Adopter[] toArray() {
-        Adopter[] arr = new Adopter[size];
-        ANode a = top;
-        int i = 0;
-        while (a != null) {
-            arr[i] = a.data;
-            a = a.next;
-            i++;
+    public Pet remove() { // เมธอดดึง Pet ตัวท้ายสุดออกจากลิสต์
+        if (isEmpty()) { // ถ้าลิสต์ว่าง
+            return null; // คืนค่า null
         }
-        return arr;
+        Pet temp = tail.data; // ดึงข้อมูล Pet ของตัวท้ายสุดมาพักไว้
+        tail = tail.prev; // ถอย tail ไปยังโหนดก่อนหน้า
+
+        if (tail == null) { // ถ้าถอยแล้วทำให้ลิสต์ว่างเปล่า
+            head = null; // ล้างค่า head ให้เป็น null ด้วย
+        } else { // ถ้ายังมีสมาชิกเหลืออยู่
+            tail.next = null; // ตัดสายเชื่อมไปยังโหนดที่เพิ่งถูกลบออก
+        }
+
+        size--; // ลดจำนวนสมาชิกลง 1
+        return temp; // ส่งคืนข้อมูล Pet ที่ดึงออกมา
+    }
+
+    boolean isEmpty() { // เมธอดเช็คว่าลิสต์ว่างหรือไม่
+        return head == null; // คืนค่า true ถ้า head เป็น null
+    }
+
+    int size() { // เมธอดดึงขนาดจำนวนสมาชิก
+        return size; // คืนค่าขนาดปัจจุบัน
+    }
+
+    PNode getHead() { // เมธอดดึงโหนดแรก
+        return head; // คืนค่า head
+    }
+
+    Pet[] toArray() { // เมธอดแปลง LinkedList เป็น Array ของ Pet
+        Pet[] arr = new Pet[size]; // สร้าง Array ตามขนาดจำนวนสมาชิกที่มี
+        PNode a = head; // เริ่มต้นที่โหนดแรก
+        int i = 0; // ตัวนับ Index ของ Array
+        while (a != null) { // วนลูปตราบใดที่ยังมีโหนดถัดไป
+            arr[i] = a.data; // เก็บข้อมูล Pet ใส่ใน Array
+            a = a.next; // ขยับไปโหนดถัดไป
+            i++; // เพิ่มค่า Index
+        }
+        return arr; // ส่งคืน Array สัตว์เลี้ยงทั้งหมด
     }
 }
 
-class Queue implements Serializable {
-    ANode front;
-    ANode last;
-    int size;
+class Stack implements Serializable { // ประกาศคลาส Stack สำหรับเก็บ Adopter (แบบมาทีหลังออกก่อน LIFO)
+    ANode top; // ตัวแปรชี้โหนดบนสุดของ Stack
+    int size; // ตัวแปรเก็บจำนวนสมาชิก
 
-    Queue() {
-        front = null;
-        last = null;
-        size = 0;
+    public Stack() { // Constructor ของ Stack
+        top = null; // ตั้งค่าโหนดบนสุดเป็น null
+        size = 0; // ตั้งค่าจำนวนสมาชิกเริ่มต้นเป็น 0
     }
 
-    void offer(Adopter a) {
-        ANode node = new ANode(a);
-        if (last == null) {
-            front = last = node;
-        } else {
-            last.next = node;
-            node.prev = last;
-            last = node;
+    void push(Adopter A) { // เมธอดใส่ Adopter เข้า Stack
+        ANode node = new ANode(A); // สร้างโหนดใหม่
+        node.next = top; // ให้ตัวเชื่อมของโหนดใหม่ชี้ไปยัง top เดิม
+        top = node; // ขยับ top ให้มาชี้ที่โหนดใหม่
+        size++; // เพิ่มจำนวนสมาชิกขึ้น 1
+    }
+
+    Adopter pop() { // เมธอดดึง Adopter ตัวบนสุดออกจาก Stack
+        if (isEmpty()) { // ถ้า Stack ว่าง
+            return null; // คืนค่า null
         }
-        size++;
+        Adopter temp = top.data; // เก็บข้อมูล Adopter ตัวบนสุดไว้
+        top = top.next; // เลื่อน top ไปยังโหนดถัดไปด้านล่าง
+        size--; // ลดจำนวนสมาชิกลง 1
+        return temp; // ส่งคืนข้อมูล Adopter ที่ดึงออก
     }
 
-    Adopter poll() {
-        if (isEmpty()) {
-            return null;
+    boolean isEmpty() { // เมธอดเช็ค Stack ว่าง
+        return top == null; // คืนค่า true ถ้า top เป็น null
+    }
+
+    int size() { // เมธอดดึงขนาด Stack
+        return size; // คืนค่าจำนวนสมาชิก
+    }
+
+    ANode getTop() { // เมธอดดึงโหนดบนสุด
+        return top; // คืนค่า top
+    }
+
+    Adopter[] toArray() { // เมธอดแปลง Stack เป็น Array
+        Adopter[] arr = new Adopter[size]; // สร้าง Array ขนาดเท่าสมาชิกใน Stack
+        ANode a = top; // เริ่มดึงจาก top Down
+        int i = 0; // ตัวนับ Index
+        while (a != null) { // วนลูปอ่านจนกว่าจะหมด Stack
+            arr[i] = a.data; // บันทึกข้อมูลใส่ Array
+            a = a.next; // ขยับลงล่าง
+            i++; // เพิ่ม Index
         }
-        Adopter temp = front.data;
-        front = front.next;
-        if (front != null) {
-            front.prev = null;
-        } else {
-            last = null;
+        return arr; // ส่งคืน Array ของ Adopter
+    }
+}
+
+class Queue implements Serializable { // ประกาศคลาส Queue เก็บ Adopter ที่จับคู่สำเร็จแล้ว (แบบเข้าก่อนออกก่อน FIFO)
+    ANode front; // ตัวแปรชี้หัวคิว
+    ANode last; // ตัวแปรชี้ท้ายคิว
+    int size; // ตัวแปรเก็บจำนวนสมาชิก
+
+    Queue() { // Constructor ของ Queue
+        front = null; // ตั้งค่าหัวคิวเป็น null
+        last = null; // ตั้งค่าท้ายคิวเป็น null
+        size = 0; // ตั้งค่าสมาชิกเป็น 0
+    }
+
+    void offer(Adopter a) { // เมธอดต่อคิวท้ายสุด
+        ANode node = new ANode(a); // สร้างโหนดใหม่
+        if (last == null) { // ถ้าคิวว่างเปล่า
+            front = last = node; // ให้ front และ last ชี้ที่โหนดใหม่นี้
+        } else { // ถ้ามีสมาชิกในคิวแล้ว
+            last.next = node; // ต่อโหนดใหม่เข้าท้ายคิว
+            node.prev = last; // ให้ prev ของโหนดใหม่ชี้กลับไปที่ last เดิม
+            last = node; // ขยับ last มาชี้โหนดใหม่
         }
-        size--;
-        return temp;
+        size++; // เพิ่มจำนวนสมาชิก
     }
 
-    boolean isEmpty() {
-        return front == null;
-    }
-
-    int size() {
-        return size;
-    }
-
-    ANode getFront() {
-        return front;
-    }
-
-    Adopter[] toArray() {
-        Adopter[] arr = new Adopter[size];
-        ANode a = front;
-        int i = 0;
-        while (a != null) {
-            arr[i] = a.data;
-            a = a.next;
-            i++;
+    Adopter poll() { // เมธอดดึงคิวหน้าสุดออก
+        if (isEmpty()) { // ถ้าคิวว่าง
+            return null; // คืนค่า null
         }
-        return arr;
+        Adopter temp = front.data; // เก็บข้อมูลหน้าคิวไว้
+        front = front.next; // ขยับ front ไปคนถัดไป
+        if (front != null) { // ถ้ายังมีสมาชิกเหลือในคิว
+            front.prev = null; // ตัดตัวเชื่อมกลับด้านหน้า
+        } else { // ถ้าคิวว่างแล้ว
+            last = null; // ล้างค่า last เป็น null
+        }
+        size--; // ลดจำนวนสมาชิก
+        return temp; // คืนค่าข้อมูลที่ถูกดึงออก
     }
 
-    void sortByid() {
-        Adopter[] arr = toArray();
+    boolean isEmpty() { // เมธอดเช็คคิวว่าง
+        return front == null; // คืนค่า true ถ้าหน้าคิวเป็น null
+    }
 
-        for (int j = 0; j < arr.length - 1; j++) {
-            for (int i = 0; i < arr.length - 1; i++) {
-                if (arr[i].getId() > arr[i + 1].getId()) {
-                    Adopter temp = arr[i];
-                    arr[i] = arr[i + 1];
-                    arr[i + 1] = temp;
+    int size() { // เมธอดดึงขนาดคิว
+        return size; // คืนค่าจำนวนสมาชิก
+    }
+
+    ANode getFront() { // เมธอดดึงโหนดหน้าคิว
+        return front; // คืนค่า front
+    }
+
+    Adopter[] toArray() { // เมธอดแปลง Queue เป็น Array
+        Adopter[] arr = new Adopter[size]; // สร้าง Array ขนาดเท่าคิว
+        ANode a = front; // เริ่มจากหัวคิว
+        int i = 0; // ตัวนับ Index
+        while (a != null) { // วนลูปจนจบแถวคิว
+            arr[i] = a.data; // ใส่ข้อมูลลง Array
+            a = a.next; // ขยับไปคนถัดไป
+            i++; // เพิ่ม Index
+        }
+        return arr; // คืนค่า Array สมาชิกในคิว
+    }
+
+    void sortByid() { // เมธอดเรียงลำดับสมาชิกใน Queue ตาม id จากน้อยไปมาก
+        Adopter[] arr = toArray(); // ดึงข้อมูลคิวทั้งหมดออกมารวมเป็น Array
+
+        for (int j = 0; j < arr.length - 1; j++) { // ลูปนอกสำหรับ Bubble Sort
+            for (int i = 0; i < arr.length - 1; i++) { // ลูปในเปรียบเทียบข้อมูลทีละคู่
+                if (arr[i].getId() > arr[i + 1].getId()) { // ถ้า id ตัวหน้ามากกว่า id ตัวหลัง
+                    Adopter temp = arr[i]; // เอาตัวหน้ามาพักใน temp
+                    arr[i] = arr[i + 1]; // สลับเอาตัวหลังมาใส่แทนตัวหน้า
+                    arr[i + 1] = temp; // เอา temp มาใส่ตำแหน่งตัวหลัง
                 }
             }
         }
-        clear();
-        for (int i = 0; i < arr.length; i++) {
-            offer(arr[i]);
+        clear(); // ล้าง Queue เดิมออกให้หมด
+        for (int i = 0; i < arr.length; i++) { // วนลูปอ่านข้อมูลที่เรียงลำดับเสร็จแล้ว
+            offer(arr[i]); // ใส่สมาชิกลับเข้า Queue ทีละตัวตามลำดับใหม่
         }
     }
 
-    void clear() {
-        front = null;
-        last = null;
-        size = 0;
+    void clear() { // เมธอดล้างข้อมูลคิว
+        front = null; // ตั้งค่าหน้าคิวเป็น null
+        last = null; // ตั้งค่าท้ายคิวเป็น null
+        size = 0; // ตั้งค่าจำนวนสมาชิกเป็น 0
     }
 }
 
-public class NewJFrame extends javax.swing.JFrame {
+public class NewJFrame extends javax.swing.JFrame { // คลาสหลักของ GUI ขยายความสามารถมาจาก JFrame
 
-    Random r = new Random();
-    private LinkedList list = new LinkedList();
-    private Stack stack = new Stack();
-    private Queue queue = new Queue();
+    Random r = new Random(); // สร้างวัตถุสำหรับสุ่มค่า
+    private LinkedList list = new LinkedList(); // สร้างวัตถุ LinkedList ไว้เก็บสัตว์เลี้ยง
+    private Stack stack = new Stack(); // สร้างวัตถุ Stack ไว้เก็บผู้ขอรับเลี้ยง
+    private Queue queue = new Queue(); // สร้างวัตถุ Queue ไว้เก็บคู่ที่รับเลี้ยงสำเร็จแล้ว
 
-    private Pet currentPet = null;
-    private Adopter currentAdopter = null;
+    private Pet currentPet = null; // สัตว์เลี้ยงปัจจุบัน = สัตว์เลี้ยงตัวล่าสุดที่เพิ่งกดสุ่ม (ยังไม่เพิ่มเข้าลิสต์)
+    private Adopter currentAdopter = null; // ผู้ขอรับเลี้ยงปัจจุบัน = ผู้ขอรับเลี้ยงตัวล่าสุดที่เพิ่งสุ่ม (ยังไม่เพิ่มเข้า Stack)
 
-    private Pet genPString() {
-        String str = "abcdefghijklmnopqrstuvwxyz";
-        String[] type = {"cat", "dog"};
+    private Pet genPString() { // เมธอดสำหรับสุ่มข้อมูลสร้างสัตว์เลี้ยงตัวใหม่
+        String str = "abcdefghijklmnopqrstuvwxyz"; // ชุดตัวอักษรภาษาอังกฤษที่ใช้สุ่มชื่อ
+        String[] type = {"cat", "dog"}; // ประเภทสัตว์ที่มีให้สุ่ม
 
-        int id = r.nextInt(90) + 10;
+        int id = r.nextInt(90) + 10; // สุ่ม id สัตว์เลี้ยงช่วง 10 ถึง 99
 
-        String Name = "";
-        for (int i = 0; i < r.nextInt(5) + 2; i++) {
-            Name += str.charAt(r.nextInt(26));
+        String Name = ""; // ตั้งค่าชื่อเริ่มต้นเป็นข้อความว่าง
+        for (int i = 0; i < r.nextInt(5) + 2; i++) { // วนลูปสุ่มความยาวชื่อตั้งแต่ 2 ถึง 6 ตัวอักษร
+            Name += str.charAt(r.nextInt(26)); // สุ่มหยิบตัวอักษรภาษาอังกฤษมาต่อกัน
         }
 
-        String Type = type[r.nextInt(type.length)];
-        int age = r.nextInt(20) + 2;
+        String Type = type[r.nextInt(type.length)]; // สุ่มประเภทสัตว์ระหว่าง cat หรือ dog
+        int age = r.nextInt(20) + 2; // สุ่มอายุดช่วง 2 ถึง 21 ปี
 
-        return new Pet(id, Name, Type, age);
+        return new Pet(id, Name, Type, age); // สร้างวัตถุ Pet ใหม่ส่งคืนกลับไป
     }
 
-    private Adopter genAString() {
-        String str = "abcdefghijklmnopqrstuvwxyz";
-        String[] type = {"male", "female"};
+    private Adopter genAString() { // เมธอดสำหรับสุ่มข้อมูลสร้างผู้ขอรับเลี้ยงคนใหม่
+        String str = "abcdefghijklmnopqrstuvwxyz"; // ชุดตัวอักษรภาษาอังกฤษที่ใช้สุ่มชื่อ
+        String[] type = {"male", "female"}; // เพศที่มีให้สุ่ม
 
-        int id = r.nextInt(90) + 10;
+        int id = r.nextInt(90) + 10; // สุ่ม id ผู้ขอรับเลี้ยงช่วง 10 ถึง 99
 
-        String Name = "";
-        for (int i = 0; i < r.nextInt(5) + 2; i++) {
-            Name += str.charAt(r.nextInt(26));
+        String Name = ""; // ตั้งค่าชื่อเริ่มต้นเป็นข้อความว่าง
+        for (int i = 0; i < r.nextInt(5) + 2; i++) { // วนลูปสุ่มความยาวชื่อ 2 ถึง 6 ตัวอักษร
+            Name += str.charAt(r.nextInt(26)); // สุ่มตัวอักษรมาต่อเป็นชื่อ
         }
 
-        String gender = type[r.nextInt(type.length)];
-        int age = r.nextInt(20) + 2;
-        double salary = r.nextInt(20000) + 1000.0;
+        String gender = type[r.nextInt(type.length)]; // สุ่มเพศระหว่าง male หรือ female
+        int age = r.nextInt(20) + 2; // สุ่มอายุช่วง 2 ถึง 21 ปี
+        double salary = r.nextInt(20000) + 1000.0; // สุ่มเงินเดือนช่วง 1,000 ถึง 20,999
 
-        return new Adopter(id, Name, gender, age, salary);
+        return new Adopter(id, Name, gender, age, salary); // สร้างวัตถุ Adopter ใหม่ส่งคืนกลับไป
     }
 
-    private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(NewJFrame.class.getName());
+    private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(NewJFrame.class.getName()); // ระบบบันทึก Log ของระบบ Java
 
-    public NewJFrame() {
-        initComponents();
+    public NewJFrame() { // Constructor หน้าต่างโปรแกรม
+        initComponents(); // เรียกใช้เมธอดสร้างและจัดวางปุ่ม/ตารางบนหน้า GUI
     }
 
-    private void updateTable1() {
-        DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
-        model.setRowCount(0);
+    private void updateTable1() { // เมธอดอัปเดตแสดงข้อมูลตารางที่ 1 (ตาราง Pet)
+        DefaultTableModel model = (DefaultTableModel) jTable1.getModel(); // ดึง DataModel ของ jTable1 มาทำงาน
+        model.setRowCount(0); // ล้างแถวเดิมในตารางออกให้หมด
 
-        Pet[] arr = list.toArray();
-        for (int i = 0; i < arr.length; i++) {
-            model.addRow(new Object[]{
-                arr[i].getId(), arr[i].getName(), arr[i].getType(), arr[i].getAge()
+        Pet[] arr = list.toArray(); // ดึงข้อมูล Pet ทั้งหมดใน LinkedList มาทำเป็น Array
+        for (int i = 0; i < arr.length; i++) { // วนลูปนำข้อมูลมาลงตารางทีละแถว
+            model.addRow(new Object[]{ // เพิ่มแถวใหม่ลงในโมเดลตาราง
+                arr[i].getId(), arr[i].getName(), arr[i].getType(), arr[i].getAge() // ใส่ค่า id, name, type, age
             });
         }
     }
 
-    private void updateTable2() {
-        DefaultTableModel model = (DefaultTableModel) jTable2.getModel();
-        model.setRowCount(0);
+    private void updateTable2() { // เมธอดอัปเดตแสดงข้อมูลตารางที่ 2 (ตาราง Adopter)
+        DefaultTableModel model = (DefaultTableModel) jTable2.getModel(); // ดึง DataModel ของ jTable2
+        model.setRowCount(0); // ล้างแถวเดิมทั้งหมด
 
-        Adopter[] arr = stack.toArray();
-        for (int i = 0; i < arr.length; i++) {
-            model.addRow(new Object[]{
-                arr[i].getId(), arr[i].getName(), arr[i].getGender(), arr[i].getAge(), arr[i].getSalary()
+        Adopter[] arr = stack.toArray(); // ดึงข้อมูล Adopter ใน Stack มาทำเป็น Array
+        for (int i = 0; i < arr.length; i++) { // วนลูปนำข้อมูลมาลงตาราง
+            model.addRow(new Object[]{ // เพิ่มแถวใหม่ลงในโมเดลตาราง
+                arr[i].getId(), arr[i].getName(), arr[i].getGender(), arr[i].getAge(), arr[i].getSalary() // ใส่ค่า id, name, gender, age, salary
             });
         }
     }
 
-    private void updateTable3() {
-        DefaultTableModel model = (DefaultTableModel) jTable3.getModel();
-        model.setRowCount(0);
+    private void updateTable3() { // เมธอดอัปเดตแสดงข้อมูลตารางที่ 3 (ตารางคิวรับเลี้ยงสำเร็จ)
+        DefaultTableModel model = (DefaultTableModel) jTable3.getModel(); // ดึง DataModel ของ jTable3
+        model.setRowCount(0); // ล้างแถวเดิมทั้งหมด
 
-        Adopter[] arr = queue.toArray();
-        for (int i = 0; i < arr.length; i++) {
-            model.addRow(new Object[]{
-                arr[i].getId(), arr[i].getName(), arr[i].getGender(), arr[i].getAge(), arr[i].getSalary(), arr[i].getPet()
+        Adopter[] arr = queue.toArray(); // ดึงข้อมูล Adopter ใน Queue มาทำเป็น Array
+        for (int i = 0; i < arr.length; i++) { // วนลูปนำข้อมูลลงตาราง
+            model.addRow(new Object[]{ // เพิ่มแถวใหม่ลงตาราง
+                arr[i].getId(), arr[i].getName(), arr[i].getGender(), arr[i].getAge(), arr[i].getSalary(), arr[i].getPet() // ใส่ข้อมูล Adopter พร้อม Pet ที่ผูกไว้
             });
         }
     }
 
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings("unchecked") // ปิดการเตือนความปลอดภัยประเภทข้อมูลของคอมไพเลอร์
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {
-        currentPet = genPString();
-        jTextField1.setText(currentPet.toString());
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) { // ปุ่ม 1: กดเพื่อสุ่ม Pet (GenPet)
+        currentPet = genPString(); // สัตว์เลี้ยงปัจจุบัน = สร้างแบบสัตว์เลี้ยงแบบสุ่ม
+        jTextField1.setText(currentPet.toString()); // แสดงผลข้อมูลสัตว์เลี้ยงที่เพิ่งสุ่มในช่องข้อความ jTextField1
     }
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {
-        if (currentPet == null) {
-            jTextField1.setText("Press GenPet");
-            return;
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) { // ปุ่ม 2: กดเพื่อเพิ่ม Pet ลงลิสต์ (AddPet)
+        if (currentPet == null) { // ถ้ายังไม่ได้กดสุ่ม Pet (ตัวแปรเป็น null)
+            jTextField1.setText("Press GenPet"); // แจ้งเตือนในช่องข้อความให้กด GenPet ก่อน
+            return; // จบการทำงานฟังก์ชันทันที
         }
-        list.add(currentPet);
-        updateTable1();
-        currentPet = null;
-        jTextField1.setText("");
+        list.add(currentPet); // เพิ่มสัตว์เลี้ยงปัจจุบันเข้า LinkedList
+        updateTable1(); // อัปเดตตารางที่ 1 เพื่อโชว์สัตว์เลี้ยงล่าสุด
+        currentPet = null; // ล้างค่าสัตว์เลี้ยงปัจจุบันให้เป็น null
+        jTextField1.setText(""); // เคลียร์ช่องข้อความให้เป็นช่องว่าง
     }
 
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {
-        list.remove();
-        updateTable1();
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) { // ปุ่ม 3: กดเพื่อลบ Pet ออก (RemovePet)
+        list.remove(); // ลบสัตว์เลี้ยงตัวท้ายสุดออกจาก LinkedList
+        updateTable1(); // รีเฟรชตารางที่ 1 ใหม่
     }
 
-    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {
-        currentAdopter = genAString();
-        jTextField2.setText(currentAdopter.toString());
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) { // ปุ่ม 4: กดเพื่อสุ่ม Adopter (GenAdopter)
+        currentAdopter = genAString(); // ผู้ขอรับเลี้ยงปัจจุบัน = สร้างแบบผู้ขอรับเลี้ยงแบบสุ่ม
+        jTextField2.setText(currentAdopter.toString()); // แสดงข้อมูลผู้ขอรับเลี้ยงสุ่มล่าสุดลงใน jTextField2
     }
 
-    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {
-        if (currentAdopter == null) {
-            jTextField2.setText("Press GenAdopter");
-            return;
+    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) { // ปุ่ม 5: กดเพื่อเพิ่ม Adopter ลง Stack (AddAdopter)
+        if (currentAdopter == null) { // ถ้ายังไม่ได้กดสุ่ม Adopter
+            jTextField2.setText("Press GenAdopter"); // แจ้งเตือนในช่องข้อความให้กด GenAdopter ก่อน
+            return; // จบการทำงานฟังก์ชันทันที
         }
-        stack.push(currentAdopter);
-        updateTable2();
-        currentAdopter = null;
-        jTextField2.setText("");
+        stack.push(currentAdopter); // ใส่ผู้ขอรับเลี้ยงปัจจุบันเข้า Stack (วางบนสุด)
+        updateTable2(); // รีเฟรชตารางที่ 2
+        currentAdopter = null; // ล้างค่าผู้ขอรับเลี้ยงปัจจุบันเป็น null
+        jTextField2.setText(""); // เคลียร์ช่องข้อความ
     }
 
-    private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {
-        stack.pop();
-        updateTable2();
+    private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) { // ปุ่ม 6: กดเพื่อลบ Adopter ออก (RemoveAdopter)
+        stack.pop(); // เอาผู้ขอรับเลี้ยงตัวบนสุดออกจาก Stack
+        updateTable2(); // รีเฟรชตารางที่ 2 ใหม่
     }
 
-    private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {
-        if (list.isEmpty() || stack.isEmpty()) {
-            return;
+    private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) { // ปุ่ม 7: กดจับคู่สัตว์เลี้ยงกับผู้รับเลี้ยง (AssignPet)
+        if (list.isEmpty() || stack.isEmpty()) { // ถ้าลิสต์สัตว์เลี้ยงหรือ Stack ผู้รับเลี้ยงว่างเปล่า
+            return; // ยกเลิกการทำงานทันที
         }
-        Adopter x = stack.pop();
-        Pet y = list.remove();
-        x.setPet(y);
-        queue.offer(x);
-        updateTable1();
-        updateTable2();
-        updateTable3();
+        Adopter x = stack.pop(); // ดึงผู้ขอรับเลี้ยงคนบนสุดมาจาก Stack
+        Pet y = list.remove(); // ดึงสัตว์เลี้ยงตัวท้ายสุดมาจาก LinkedList
+        x.setPet(y); // นำสัตว์เลี้ยง y ผูกจับคู่ให้กับผู้ขอรับเลี้ยง x
+        queue.offer(x); // นำคู่สำเร็จแล้วเพิ่มต่อเข้า Queue รับเลี้ยงสำเร็จ
+        updateTable1(); // รีเฟรชตารางสัตว์เลี้ยง
+        updateTable2(); // รีเฟรชตารางผู้รับเลี้ยง
+        updateTable3(); // รีเฟรชตารางคู่รับเลี้ยงสำเร็จ
     }
 
-    private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {
-        queue.sortByid();
-        updateTable3();
+    private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) { // ปุ่ม 8: กดเพื่อเรียงลำดับข้อมูลคิว (Sort)
+        queue.sortByid(); // สั่งให้ Queue เรียงลำดับสมาชิกตาม id จากน้อยไปมาก
+        updateTable3(); // รีเฟรชตารางคู่รับเลี้ยงสำเร็จเพื่อแสดงลำดับใหม่
     }
 
-    private void jButton9ActionPerformed(java.awt.event.ActionEvent evt) {
-        try {
-            ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream("data.ser"));
-            out.writeObject(queue);
-            out.close();
-            JOptionPane.showMessageDialog(this, "Save data.ser Success");
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, "Save error: " + e.getMessage());
-        }
-    }
-
-    private void jButton10ActionPerformed(java.awt.event.ActionEvent evt) {
-        try {
-            ObjectInputStream in = new ObjectInputStream(new FileInputStream("data.ser"));
-            queue = (Queue) in.readObject();
-            in.close();
-            updateTable3();
-            JOptionPane.showMessageDialog(this, "Load data.ser Suc");
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, "Load error: " + e.getMessage());
+    private void jButton9ActionPerformed(java.awt.event.ActionEvent evt) { // ปุ่ม 9: กดเพื่อบันทึกข้อมูลลงไฟล์ (Save)
+        try { // เริ่มต้นบล็อกจับ Error การจัดการไฟล์
+            ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream("data.ser")); // เปิดสตรีมสร้าง/เขียนไฟล์ data.ser
+            out.writeObject(queue); // แปลงวัตถุ Queue ทั้งก้อนและเขียนลงไฟล์
+            out.close(); // ปิดการเชื่อมต่อสตรีมไฟล์
+            JOptionPane.showMessageDialog(this, "Save data.ser Success"); // แสดงหน้าต่าง Pop-up แจ้งบันทึกสำเร็จ
+        } catch (Exception e) { // ถ้าระหว่างทำงานเกิดข้อผิดพลาด
+            JOptionPane.showMessageDialog(this, "Save error: " + e.getMessage()); // แสดง Pop-up ข้อความ Error
         }
     }
 
-    public static void main(String args[]) {
-        java.awt.EventQueue.invokeLater(() -> new NewJFrame().setVisible(true));
+    private void jButton10ActionPerformed(java.awt.event.ActionEvent evt) { // ปุ่ม 10: กดเพื่อดึงข้อมูลจากไฟล์กลับมา (Load)
+        try { // เริ่มบล็อกจับ Error
+            ObjectInputStream in = new ObjectInputStream(new FileInputStream("data.ser")); // เปิดสตรีมอ่านไฟล์ data.ser
+            queue = (Queue) in.readObject(); // อ่าน Object ในไฟล์และแปลงประเภทกลับมาเป็น Queue
+            in.close(); // ปิดไฟล์
+            updateTable3(); // รีเฟรชตารางที่ 3 แสดงผลข้อมูลที่โหลดมาได้
+            JOptionPane.showMessageDialog(this, "Load data.ser Suc"); // แสดง Pop-up โหลดสำเร็จ
+        } catch (Exception e) { // ถ้าอ่านไฟล์ไม่ได้ หรือไม่เจอไฟล์
+            JOptionPane.showMessageDialog(this, "Load error: " + e.getMessage()); // แสดง Pop-up ข้อความ Error
+        }
+    }
+
+    public static void main(String args[]) { // เมธอดหลักสำหรับเริ่มต้นการทำงานโปรแกรม
+        java.awt.EventQueue.invokeLater(() -> new NewJFrame().setVisible(true)); // สั่งเปิดหน้าต่างโปรแกรม GUI
     }
 
     // Variables declaration - do not modify                     
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton10;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
-    private javax.swing.JButton jButton5;
-    private javax.swing.JButton jButton6;
-    private javax.swing.JButton jButton7;
-    private javax.swing.JButton jButton8;
-    private javax.swing.JButton jButton9;
-    private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JScrollPane jScrollPane3;
-    private javax.swing.JTable jTable1;
-    private javax.swing.JTable jTable2;
-    private javax.swing.JTable jTable3;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
+    private javax.swing.JButton jButton1; // ประกาศตัวแปรปุ่ม GenPet
+    private javax.swing.JButton jButton10; // ประกาศตัวแปรปุ่ม Load
+    private javax.swing.JButton jButton2; // ประกาศตัวแปรปุ่ม AddPet
+    private javax.swing.JButton jButton3; // ประกาศตัวแปรปุ่ม RemovePet
+    private javax.swing.JButton jButton4; // ประกาศตัวแปรปุ่ม GenAdopter
+    private javax.swing.JButton jButton5; // ประกาศตัวแปรปุ่ม AddAdopter
+    private javax.swing.JButton jButton6; // ประกาศตัวแปรปุ่ม RemoveAdopter
+    private javax.swing.JButton jButton7; // ประกาศตัวแปรปุ่ม AssignPet
+    private javax.swing.JButton jButton8; // ประกาศตัวแปรปุ่ม Sort
+    private javax.swing.JButton jButton9; // ประกาศตัวแปรปุ่ม Save
+    private javax.swing.JScrollPane jScrollPane1; // ประกาศช่อง Scroll แผงที่ 1
+    private javax.swing.JScrollPane jScrollPane2; // ประกาศช่อง Scroll แผงที่ 2
+    private javax.swing.JScrollPane jScrollPane3; // ประกาศช่อง Scroll แผงที่ 3
+    private javax.swing.JTable jTable1; // ประกาศตัวแปรตารางแสดงข้อมูล Pet
+    private javax.swing.JTable jTable2; // ประกาศตัวแปรตารางแสดงข้อมูล Adopter
+    private javax.swing.JTable jTable3; // ประกาศตัวแปรตารางแสดงข้อมูลการจับคู่
+    private javax.swing.JTextField jTextField1; // ประกาศช่องแสดงข้อความ Pet
+    private javax.swing.JTextField jTextField2; // ประกาศช่องแสดงข้อความ Adopter
     // End of variables declaration                   
+}                  
 }</code></pre>
   </section>
 
